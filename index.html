@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Hold On · 等一等，再决定。</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ 森林场景（近小女孩视线的微仰视角，小溪自左上深处向右下流去） ============ -->
+  <div class="world" id="world">
+
+    <svg id="scene" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMax slice" role="img" aria-label="森林中的小溪边，小女孩坐在大树下">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop id="skyStop1" offset="0%" stop-color="#a9c6e2"/>
+          <stop id="skyStop2" offset="100%" stop-color="#dff0e6"/>
+        </linearGradient>
+        <linearGradient id="farBankGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#bcd0ae"/>
+          <stop offset="100%" stop-color="#a8c29a"/>
+        </linearGradient>
+        <linearGradient id="nearBankGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c8d9ad"/>
+          <stop offset="100%" stop-color="#9cba87"/>
+        </linearGradient>
+        <linearGradient id="streamGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#93c7dd"/>
+          <stop offset="55%" stop-color="#aed6e4"/>
+          <stop offset="100%" stop-color="#bfdee8"/>
+        </linearGradient>
+        <radialGradient id="sunHalo" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#fff6d8" stop-opacity="0.9"/>
+          <stop offset="60%" stop-color="#ffe9ae" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#ffe9ae" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="moonGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#f2f0e6" stop-opacity="0.95"/>
+          <stop offset="70%" stop-color="#e8e6da" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#e8e6da" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ===== 1. 天空（只从树冠与远树缝隙露出） ===== -->
+      <rect x="0" y="0" width="1280" height="720" fill="url(#skyGrad)"/>
+
+      <!-- 星星 / 月亮 / 太阳 -->
+      <g id="starsG"></g>
+      <g id="moonG" opacity="0">
+        <circle r="38" fill="url(#moonGlow)"/>
+        <circle r="15" cx="0" cy="0" fill="#efece0"/>
+        <circle r="3.4" cx="-5" cy="-4" fill="#ddd9c8" opacity="0.8"/>
+        <circle r="2.2" cx="6" cy="6" fill="#ddd9c8" opacity="0.7"/>
+        <circle r="2.8" cx="1" cy="-10" fill="#ddd9c8" opacity="0.6"/>
+      </g>
+      <g id="sunG" opacity="0">
+        <circle r="80" fill="url(#sunHalo)"/>
+        <circle r="34" fill="#fff2c8"/>
+        <circle r="26" fill="#fff8e0" opacity="0.7"/>
+      </g>
+
+      <!-- 右上角：远处树梢剪影（把天空切小，不规则的云朵状） -->
+      <g id="topFoliage" fill="#a6bca3" opacity="0.8">
+        <path d="M1000 150 C 1030 90 1090 60 1150 70 C 1220 40 1300 60 1330 110 C 1360 160 1300 200 1240 195 C 1180 210 1090 190 1060 160 C 1020 165 990 160 1000 150 Z"/>
+        <path d="M872 118 C 895 78 950 62 1000 78 C 1042 90 1052 132 1022 152 C 960 162 898 152 872 118 Z"/>
+        <path d="M1175 205 C 1210 168 1280 158 1335 188 C 1375 218 1325 258 1265 252 C 1215 258 1160 240 1175 205 Z" opacity="0.75"/>
+      </g>
+
+      <!-- ===== 2. 远景：溪对岸的远树（树干微微收窄 + 不规则的云朵树冠） ===== -->
+      <g id="hillsFar" fill="#c3d5bd" opacity="0.5">
+        <path d="M0 330 C 160 306 320 318 470 328 C 640 338 810 310 980 322 C 1120 331 1220 312 1280 320 L1280 400 L0 400 Z"/>
+      </g>
+      <g id="farForest">
+        <!-- 更远的几棵小树（更小更淡，让背景更像一片林子） -->
+        <g opacity="0.82">
+          <path d="M470 428 L 480 428 L 483 360 L 468 360 Z" fill="#a1b4a0"/>
+          <path d="M452 358 C 448 336 462 326 476 328 C 490 324 502 330 504 346 C 514 352 513 366 500 370 C 484 374 462 372 454 366 C 448 364 446 362 452 358 Z" fill="#adc0ac"/>
+        </g>
+        <g opacity="0.78">
+          <path d="M682 424 L 692 424 L 695 348 L 680 348 Z" fill="#9fb19d"/>
+          <path d="M664 346 C 660 322 674 312 690 314 C 706 310 718 318 720 336 C 730 342 728 358 714 362 C 696 366 674 364 666 356 C 660 352 658 350 664 346 Z" fill="#a8bda8"/>
+        </g>
+        <g opacity="0.82">
+          <path d="M878 430 L 888 430 L 891 366 L 876 366 Z" fill="#a1b4a0"/>
+          <path d="M860 364 C 856 342 870 332 886 334 C 900 330 912 338 914 354 C 924 360 922 374 908 378 C 890 382 868 380 860 372 C 854 370 852 368 860 364 Z" fill="#adc0ac"/>
+        </g>
+        <g opacity="0.9">
+          <path d="M130 460 L 144 460 L 148 318 L 132 318 Z" fill="#9db09c"/>
+          <path d="M104 316 C 96 282 118 260 144 262 C 168 258 196 270 198 296 C 216 306 214 330 196 338 C 168 346 130 342 116 332 C 102 328 100 322 104 316 Z" fill="#adc0ac"/>
+        </g>
+        <g opacity="0.9">
+          <path d="M344 462 L 360 462 L 364 306 L 342 306 Z" fill="#98ac97"/>
+          <path d="M318 304 C 310 268 334 246 362 248 C 388 244 416 256 420 284 C 438 294 436 320 416 328 C 388 336 348 334 332 322 C 316 316 312 310 318 304 Z" fill="#a7bba6"/>
+        </g>
+        <g opacity="0.85">
+          <path d="M568 452 L 580 452 L 583 330 L 566 330 Z" fill="#a0b39f"/>
+          <path d="M546 328 C 540 300 558 282 584 284 C 606 280 630 290 633 314 C 648 322 646 344 628 350 C 604 356 570 354 556 344 C 542 340 540 334 546 328 Z" fill="#b0c3ae"/>
+        </g>
+        <g opacity="0.9">
+          <path d="M768 464 L 784 464 L 788 296 L 766 296 Z" fill="#96aa95"/>
+          <path d="M740 294 C 732 254 758 232 788 234 C 816 230 846 244 850 274 C 868 284 866 314 844 322 C 814 330 770 328 752 316 C 734 310 732 302 740 294 Z" fill="#a3b8a4"/>
+        </g>
+        <g opacity="0.85">
+          <path d="M995 456 L 1009 456 L 1013 322 L 993 322 Z" fill="#9cb09b"/>
+          <path d="M972 320 C 966 290 986 270 1012 272 C 1034 268 1058 278 1061 302 C 1076 310 1074 332 1056 338 C 1030 344 996 342 982 332 C 968 328 966 324 972 320 Z" fill="#adc0ac"/>
+        </g>
+        <g opacity="0.85">
+          <path d="M1176 456 L 1190 456 L 1194 318 L 1174 318 Z" fill="#99ad98"/>
+          <path d="M1152 316 C 1146 286 1166 266 1192 268 C 1214 264 1238 274 1241 298 C 1256 306 1254 328 1236 334 C 1210 340 1176 338 1162 328 C 1148 324 1146 320 1152 316 Z" fill="#a9bda8"/>
+        </g>
+      </g>
+
+      <!-- ===== 3. 溪对岸草地 / 近岸草地（先铺底，避免露色） ===== -->
+      <rect x="0" y="380" width="1280" height="90" fill="url(#farBankGrad)"/>
+      <rect id="nearBank" x="0" y="470" width="1280" height="250" fill="url(#nearBankGrad)"/>
+
+      <!-- 远岸的小草（很少） -->
+      <g stroke="#8aa37e" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.85">
+        <path d="M180 458 q -2 -8 2 -16 M180 458 q 3 -6 8 -10"/>
+        <path d="M520 456 q -2 -7 2 -14 M520 456 q 3 -6 7 -9"/>
+        <path d="M860 458 q -2 -7 2 -14 M860 458 q 3 -6 7 -9"/>
+      </g>
+
+      <!-- ===== 4. 小溪：从左上方斜向右下方，整体靠上一些，给下方留出更大的陆地 ===== -->
+      <g id="stream">
+        <!-- 一条柔柔的溪水带（保持左上 → 右下的斜向流动） -->
+        <path id="streamBody"
+              d="M 60 300 C 260 362 500 418 750 468 C 980 516 1160 578 1300 655"
+              fill="none" stroke="url(#streamGrad)" stroke-width="122" stroke-linecap="round"/>
+        <!-- 水面中间的浅色（层次） -->
+        <path d="M 60 300 C 260 362 500 418 750 468 C 980 516 1160 578 1300 655"
+              fill="none" stroke="#c9e3ec" stroke-width="106" stroke-linecap="round" opacity="0.85"/>
+        <!-- 沿溪流方向流动的水流线 -->
+        <path class="flowline" d="M 60 300 C 260 362 500 418 750 468 C 980 516 1160 578 1300 655"
+              fill="none" stroke="#eaf6f8" stroke-width="6.5" stroke-linecap="round" opacity="0.95"/>
+        <path class="flowline2" d="M 60 300 C 260 362 500 418 750 468 C 980 516 1160 578 1300 655"
+              fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" opacity="0.75"/>
+        <!-- 水面小亮点 -->
+        <ellipse class="sparkle" cx="250" cy="365" rx="11" ry="4.5" fill="#eef8fa" opacity="0.9"/>
+        <ellipse class="sparkle" cx="520" cy="420" rx="11" ry="4.5" fill="#eef8fa" opacity="0.85"/>
+        <ellipse class="sparkle" cx="760" cy="492" rx="11" ry="4.5" fill="#eef8fa" opacity="0.9"/>
+        <ellipse class="sparkle" cx="1010" cy="550" rx="11" ry="4.5" fill="#eef8fa" opacity="0.85"/>
+        <!-- 溪中小石头（在浅水里，很自然） -->
+        <ellipse cx="430" cy="392" rx="10" ry="6" fill="#bcc6bd" opacity="0.9"/>
+        <ellipse cx="700" cy="452" rx="11" ry="6.5" fill="#c3ccc3" opacity="0.85"/>
+        <ellipse cx="960" cy="535" rx="10" ry="6" fill="#c8d1c8" opacity="0.85"/>
+        <ellipse cx="1190" cy="602" rx="11" ry="6" fill="#bfc9c0" opacity="0.85"/>
+        <!-- 荷叶 + 青蛙（属于溪流层，树可在前方遮挡） -->
+        <g id="animal-frog" class="animal" transform="translate(-400 -400)">
+          <g>
+            <ellipse cx="0" cy="2" rx="27" ry="12" fill="#8fbf82"/>
+            <ellipse cx="0" cy="1" rx="19" ry="8" fill="#7aa96e" opacity="0.6"/>
+            <path d="M0 1 q -6 12 -2 20" stroke="#6f9c63" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+            <circle cx="0" cy="-4" r="6" fill="#7da26b"/>
+            <circle cx="-3.4" cy="-9" r="1.6" fill="#f4f1e4"/>
+            <circle cx="3.4" cy="-9" r="1.6" fill="#f4f1e4"/>
+            <circle cx="-3.4" cy="-9" r="0.7" fill="#3c4436"/>
+            <circle cx="3.4" cy="-9" r="0.7" fill="#3c4436"/>
+            <path d="M-2 -5 Q 0 -3 2 -5" stroke="#f4f1e4" stroke-width="1" fill="none"/>
+          </g>
+        </g>
+        <!-- 小鱼（属于溪流层，树可在前方遮挡） -->
+        <g id="animal-fish" class="animal" transform="translate(-300 -300)">
+          <g>
+            <ellipse cx="0" cy="0" rx="9" ry="5.5" fill="#a9c3c9"/>
+            <ellipse cx="-3" cy="-1" rx="5" ry="3" fill="#cfe0e3" opacity="0.8"/>
+            <path d="M-8 -1 L -16 -6 L -13 2 Z" fill="#8fb0b8"/>
+            <circle cx="7" cy="-1.5" r="1.1" fill="#3c4436"/>
+            <path d="M9 2 q 3 -1 2 -3" stroke="#8fb0b8" stroke-width="1.6" fill="none"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- 近岸上一道浅浅的草地亮带 -->
+      <path d="M0 700 Q 320 690 640 700 T 1280 692 L1280 720 L0 720 Z" fill="#b3ca9c" opacity="0.5"/>
+
+      <!-- ===== 5. 主树：会分叉、轮廓自然的大树（树干不“圆柱”） ===== -->
+      <g id="tree">
+        <!-- 树荫 -->
+        <ellipse cx="430" cy="676" rx="330" ry="42" fill="#4f6b45" opacity="0.13"/>
+
+        <!-- 树冠：不规则云朵轮廓 -->
+        <g id="canopy">
+          <path d="M -80 320
+                   C -100 250 -60 190 20 168
+                   C 30 90 150 25 280 35
+                   C 360 -35 520 -35 600 25
+                   C 720 -5 830 60 840 145
+                   C 910 165 920 240 870 290
+                   C 830 330 710 335 630 300
+                   C 570 365 430 385 340 345
+                   C 250 405 90 395 -20 345
+                   Z"
+                fill="#7fa873" opacity="0.95"/>
+          <path d="M -40 300 C 10 225 120 175 240 175 C 330 155 400 125 460 145 C 560 125 660 165 700 225 C 760 245 790 295 760 325 C 680 345 560 335 480 305 C 380 345 200 345 120 315 C 40 325 -30 320 -40 300 Z"
+                fill="#8db47f" opacity="0.85"/>
+          <path d="M 160 125 C 240 45 380 25 480 75 C 580 35 700 95 730 175 C 620 155 500 175 400 145 C 300 175 200 165 160 125 Z"
+                fill="#a3c493" opacity="0.6"/>
+          <path d="M 300 95 C 360 45 460 35 520 75 C 460 105 360 115 300 95 Z" fill="#b9d6a8" opacity="0.7"/>
+          <path d="M 90 215 C 130 165 220 155 270 185 C 220 215 140 225 90 215 Z" fill="#b4d0a2" opacity="0.55"/>
+          <g fill="#93b985" opacity="0.9">
+            <circle cx="60" cy="245" r="12"/><circle cx="220" cy="95" r="11"/>
+            <circle cx="400" cy="55" r="13"/><circle cx="560" cy="85" r="11"/>
+            <circle cx="700" cy="145" r="12"/><circle cx="760" cy="255" r="10"/>
+            <circle cx="480" cy="245" r="10"/><circle cx="180" cy="305" r="9"/>
+          </g>
+        </g>
+
+        <!-- 树干：两侧轮廓自然起伏，不像圆柱 -->
+        <path d="M322 205
+                 C 300 258 290 320 302 372
+                 C 314 424 300 470 286 514
+                 C 272 560 258 600 244 650
+                 C 236 682 228 706 220 724
+                 C 232 730 250 732 268 730
+                 L 438 730
+                 C 460 700 472 655 476 600
+                 C 480 545 468 482 458 428
+                 C 450 380 452 322 446 270
+                 C 442 236 420 210 392 206 Z"
+              fill="#8a7057"/>
+        <!-- 树干受光面 -->
+        <path d="M322 205 C 300 258 290 320 302 372 C 314 424 300 470 286 514
+                 C 272 560 258 600 244 650 C 236 682 228 706 220 724
+                 L 300 724 C 320 700 340 668 352 620 C 364 565 376 520 376 470
+                 C 376 420 372 360 364 300 C 358 255 340 226 322 205 Z"
+              fill="#9a8065" opacity="0.5"/>
+        <!-- 根部：只保留两道很柔和浅色的树根（不再像硬块/几何） -->
+        <path d="M402 716 Q 470 706 522 702" stroke="#8a7057" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <path d="M300 718 Q 232 706 192 706" stroke="#8a7057" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.4"/>
+        <!-- 根部与地面衔接 -->
+        <ellipse cx="350" cy="728" rx="190" ry="14" fill="#8a7057"/>
+        <ellipse cx="350" cy="728" rx="130" ry="9" fill="#7d654e" opacity="0.4"/>
+      </g>
+
+      <!-- 树叶间落下的淡光 -->
+      <polygon points="520,70 610,70 700,560 610,580" fill="#fff2c8" opacity="0.05"/>
+      <polygon points="780,50 860,50 980,520 900,540" fill="#fff6da" opacity="0.04"/>
+      <g id="dapple">
+        <ellipse cx="360" cy="660" rx="30" ry="5" fill="#fff4c8" opacity="0.13" transform="rotate(-6 360 660)"/>
+        <ellipse cx="490" cy="700" rx="28" ry="4.5" fill="#fff4c8" opacity="0.12" transform="rotate(8 490 700)"/>
+        <ellipse cx="600" cy="672" rx="24" ry="4" fill="#fff4c8" opacity="0.11" transform="rotate(-4 600 672)"/>
+        <ellipse cx="540" cy="640" rx="20" ry="4" fill="#fff4c8" opacity="0.1" transform="rotate(12 540 640)"/>
+      </g>
+
+      <!-- ===== 6. 近岸草、小石头、小花（在小女孩后面） ===== -->
+      <g id="grassTufts" stroke="#7f9d6b" stroke-width="3" fill="none" stroke-linecap="round">
+        <g transform="translate(120 700)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 10; 2.2 0 10; -1.8 0 10; 0 0 10" keyTimes="0; .3; .7; 1" dur="6.2s" begin="-1.1s" repeatCount="indefinite"/><path d="M0 10 Q -2 0 2 -14 M0 10 Q 3 2 9 -8 M0 10 Q -5 2 -8 -6"/></g></g>
+        <g transform="translate(200 716)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 10; 2 0 10; -2 0 10; 0 0 10" keyTimes="0; .3; .7; 1" dur="7s" begin="-3.2s" repeatCount="indefinite"/><path d="M0 10 Q -1 0 1 -12 M0 10 Q 3 2 8 -6"/></g></g>
+        <g transform="translate(100 640)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 10; 2.6 0 10; -1.4 0 10; 0 0 10" keyTimes="0; .3; .7; 1" dur="5.5s" begin="-0.4s" repeatCount="indefinite"/><path d="M0 10 Q -2 1 3 -13 M0 10 Q 4 3 10 -7 M0 10 Q -5 3 -7 -5"/></g></g>
+        <g transform="translate(430 706)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 9; 2 0 9; -1.6 0 9; 0 0 9" keyTimes="0; .3; .7; 1" dur="6.8s" begin="-2.6s" repeatCount="indefinite"/><path d="M0 9 Q -1 1 2 -11 M0 9 Q 3 2 7 -5"/></g></g>
+        <g transform="translate(520 656)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 10; 2.4 0 10; -2 0 10; 0 0 10" keyTimes="0; .3; .7; 1" dur="5.8s" begin="-4.4s" repeatCount="indefinite"/><path d="M0 10 Q -2 1 1 -12 M0 10 Q 3 2 8 -6 M0 10 Q -4 2 -7 -4"/></g></g>
+        <g transform="translate(780 660)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 9; 1.8 0 9; -1.8 0 9; 0 0 9" keyTimes="0; .3; .7; 1" dur="7.4s" begin="-5.1s" repeatCount="indefinite"/><path d="M0 9 Q -1 1 2 -11 M0 9 Q 3 2 7 -6"/></g></g>
+        <g transform="translate(900 700)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 9; 2 0 9; -1.5 0 9; 0 0 9" keyTimes="0; .3; .7; 1" dur="6.4s" begin="-0.9s" repeatCount="indefinite"/><path d="M0 9 Q -1 1 2 -11 M0 9 Q 3 2 7 -5"/></g></g>
+        <g transform="translate(180 660)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 9; 1.6 0 9; -2.2 0 9; 0 0 9" keyTimes="0; .3; .7; 1" dur="7.8s" begin="-2.9s" repeatCount="indefinite"/><path d="M0 9 Q -1 1 2 -11 M0 9 Q 3 2 7 -5"/></g></g>
+      </g>
+      <ellipse cx="160" cy="710" rx="13" ry="6" fill="#c2cbc1" opacity="0.9"/>
+      <ellipse cx="660" cy="716" rx="12" ry="5.5" fill="#c6cfc5" opacity="0.85"/>
+      <g transform="translate(980 716)"><circle cx="-3" cy="-3.4" r="2.2" fill="#e6d9ec"/><circle cx="3" cy="-3.4" r="2.2" fill="#e6d9ec"/><circle cx="0" cy="1" r="2.2" fill="#e6d9ec"/><circle cx="-3.4" cy="0.4" r="2.2" fill="#e6d9ec"/><circle cx="3.4" cy="0.4" r="2.2" fill="#e6d9ec"/><circle r="1.5" fill="#ecd397"/></g>
+      <g transform="translate(430 722)"><circle cx="-2.6" cy="-3" r="2" fill="#f6ecd0"/><circle cx="2.6" cy="-3" r="2" fill="#f6ecd0"/><circle cx="0" cy="0.8" r="2" fill="#f6ecd0"/><circle r="1.4" fill="#e8cfa2"/></g>
+
+      <!-- ===== 7. 小白花：长在树根旁（保留，会陪你说话） ===== -->
+      <g id="flower" transform="translate(500 686)">
+        <circle cx="0" cy="8" r="30" fill="transparent" style="pointer-events:all"/>
+        <ellipse cx="0" cy="14" rx="13" ry="3.5" fill="#5f7d52" opacity="0.18"/>
+        <g id="flowerSway">
+          <animateTransform attributeName="transform" type="rotate"
+            values="0 0 14; 4.5 0 14; -2 0 14; 1.4 0 14; 0 0 14"
+            keyTimes="0; 0.3; 0.62; 0.85; 1" dur="11s" repeatCount="indefinite"/>
+          <path d="M0 14 C -3 4 -2 -6 0 -15" fill="none" stroke="#7d9a68" stroke-width="2.7" stroke-linecap="round"/>
+          <path d="M-1 -4 C -9 -6 -13 -2 -15 4" fill="none" stroke="#7d9a68" stroke-width="2.3" stroke-linecap="round"/>
+          <g transform="translate(0 -19)">
+            <ellipse cx="0" cy="-6" rx="3.2" ry="6.2" fill="#ffffff"/>
+            <ellipse cx="5.6" cy="-1.9" rx="3.2" ry="6.2" fill="#ffffff" transform="rotate(72)"/>
+            <ellipse cx="3.5" cy="4.9" rx="3.2" ry="6.2" fill="#ffffff" transform="rotate(144)"/>
+            <ellipse cx="-3.5" cy="4.9" rx="3.2" ry="6.2" fill="#ffffff" transform="rotate(216)"/>
+            <ellipse cx="-5.6" cy="-1.9" rx="3.2" ry="6.2" fill="#ffffff" transform="rotate(288)"/>
+            <circle r="3.4" fill="#ecd397"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- ===== 8. 小女孩（永远留在画面里的安全位置） ===== -->
+      <g id="girl">
+
+        <!-- 姿态 A：坐在树荫下看天空 -->
+        <g class="pose pose-looksky active">
+          <g transform="translate(585 680)">
+            <ellipse cx="0" cy="34" rx="34" ry="9" fill="#5f7d52" opacity="0.16"/>
+            <path d="M-8 12 Q -26 24 -32 35" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M4 12 Q -14 28 -17 37" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M-16 -6 Q -18 8 0 11 Q 18 8 16 -6 Q 8 -9 0 -9 Q -8 -9 -16 -6 Z" fill="#d5e4ef"/>
+            <path d="M-13 -1 L 13 -1" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M-12 4 L 12 4" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="-11" y="-30" width="22" height="25" rx="9" fill="#f8f7f2"/>
+            <path d="M-11 -20 Q -25 -15 -25 -5" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <path d="M11 -20 Q 25 -15 25 -5" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <g transform="translate(0 -44)">
+              <circle cx="0" cy="0" r="16" fill="#f6d7ba"/>
+              <path d="M-17 -2 C -18 -18 -6 -24 0 -24 C 12 -24 18 -14 17 -2 C 12 -8 6 -10 0 -10 C -6 -10 -11 -8 -17 -2 Z" fill="#4e3a2c"/>
+              <path d="M-16 -2 Q -18 5 -13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+              <path d="M16 -2 Q 18 5 13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+              <circle cx="-5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+              <circle cx="5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+              <path d="M-4 6 Q 0 9 4 6" stroke="#6b4f3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 姿态 B：低头看小白花 -->
+        <g class="pose pose-flower">
+          <g transform="translate(560 684)">
+            <ellipse cx="0" cy="34" rx="34" ry="9" fill="#5f7d52" opacity="0.16"/>
+            <path d="M-8 12 Q -30 24 -34 35" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M4 12 Q -16 28 -18 37" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M-16 -6 Q -18 8 0 11 Q 18 8 16 -6 Q 8 -9 0 -9 Q -8 -9 -16 -6 Z" fill="#d5e4ef"/>
+            <path d="M-13 -1 L 13 -1" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M-12 4 L 12 4" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="-11" y="-30" width="22" height="25" rx="9" fill="#f8f7f2"/>
+            <path d="M-11 -18 Q -22 -6 -18 6" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <path d="M11 -18 Q 22 -6 18 6" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <g transform="translate(-8 -40)">
+              <circle cx="0" cy="0" r="16" fill="#f6d7ba"/>
+              <path d="M-17 -2 C -18 -18 -6 -24 0 -24 C 12 -24 18 -14 17 -2 C 12 -8 6 -10 0 -10 C -6 -10 -11 -8 -17 -2 Z" fill="#4e3a2c"/>
+              <path d="M-16 -2 Q -18 5 -13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+              <path d="M16 -2 Q 18 5 13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+              <circle cx="-5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+              <circle cx="5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+              <path d="M-4 6 Q 0 9 4 6" stroke="#6b4f3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 姿态 walk（偶尔站起来走几步；JS 控制平移与朝向，影子固定跟随） -->
+        <g class="pose pose-walk">
+          <!-- JS 会给本组设置 transform: translate(x y) scale(s 1) -->
+          <ellipse cx="2" cy="1" rx="17" ry="4.5" fill="#5f7d52" opacity="0.2"/>
+          <g>
+            <animateTransform attributeName="transform" type="translate"
+              values="0 0; 0 -3; 0 0; 0 -3; 0 0"
+              keyTimes="0; 0.25; 0.5; 0.75; 1" dur="1s" repeatCount="indefinite"/>
+            <g opacity="1">
+              <animate attributeName="opacity" calcMode="discrete" values="1;0;1" keyTimes="0;0.5;1" dur="0.9s" repeatCount="indefinite"/>
+              <path d="M0 -12 Q -3 -6 -8 -1" stroke="#f2cfa9" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <path d="M5 -12 Q 10 -6 13 0" stroke="#f2cfa9" stroke-width="7" fill="none" stroke-linecap="round"/>
+            </g>
+            <g opacity="0">
+              <animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;0.5;1" dur="0.9s" repeatCount="indefinite"/>
+              <path d="M0 -12 Q -6 -6 -11 -1" stroke="#f2cfa9" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <path d="M5 -12 Q 7 -6 8 0" stroke="#f2cfa9" stroke-width="7" fill="none" stroke-linecap="round"/>
+            </g>
+            <rect x="-9" y="-22" width="20" height="14" rx="6" fill="#d5e4ef"/>
+            <path d="M-7 -18 L 11 -18" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M-7 -14 L 11 -14" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="-10" y="-46" width="24" height="26" rx="9" fill="#f8f7f2"/>
+            <path d="M-9 -40 Q -13 -32 -11 -28" stroke="#f2cfa9" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M13 -40 Q 17 -32 15 -28" stroke="#f2cfa9" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <g transform="translate(4 -58)">
+              <circle cx="0" cy="0" r="13" fill="#f6d7ba"/>
+              <path d="M-14 -1 C -15 -14 -5 -19 1 -19 C 9 -19 13 -11 13 -1 C 9 -6 4 -8 0 -8 C -5 -8 -10 -5 -14 -1 Z" fill="#4e3a2c"/>
+              <path d="M-13 -1 Q -16 6 -12 10" stroke="#4e3a2c" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M12 -2 Q 14 4 10 7" stroke="#4e3a2c" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <circle cx="5" cy="-1" r="1.7" fill="#4e3a2c"/>
+              <path d="M4 5 Q 7 8 10 5" stroke="#6b4f3a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 姿态 C：在溪边玩水（手够到水边） -->
+        <g class="pose pose-water">
+          <g transform="translate(560 668)">
+            <ellipse cx="0" cy="34" rx="34" ry="9" fill="#5f7d52" opacity="0.16"/>
+            <path d="M-8 12 Q 6 26 15 34" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M4 12 Q 20 27 28 32" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M-16 -6 Q -18 8 0 11 Q 18 8 16 -6 Q 8 -9 0 -9 Q -8 -9 -16 -6 Z" fill="#d5e4ef"/>
+            <path d="M-13 -1 L 13 -1" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M-12 4 L 12 4" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="-11" y="-30" width="22" height="25" rx="9" fill="#f8f7f2"/>
+            <path d="M-11 -20 Q -25 -15 -25 -5" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <!-- 右臂伸向溪水 -->
+            <path d="M11 -16 Q 40 -10 66 -6" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <circle cx="70" cy="-5" r="4" fill="#f6d7ba"/>
+            <g transform="translate(0 -44)">
+              <circle cx="0" cy="0" r="16" fill="#f6d7ba"/>
+              <path d="M-17 -2 C -18 -18 -6 -24 0 -24 C 12 -24 18 -14 17 -2 C 12 -8 6 -10 0 -10 C -6 -10 -11 -8 -17 -2 Z" fill="#4e3a2c"/>
+              <path d="M-16 -2 Q -18 5 -13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+              <path d="M16 -2 Q 18 5 13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+              <circle cx="-5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+              <circle cx="5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+              <path d="M-4 6 Q 0 9 4 6" stroke="#6b4f3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </g>
+            <!-- 水花（在溪水边） -->
+            <circle cx="78" cy="-6" r="3" fill="#dceef2" opacity="0.95"/>
+            <circle cx="86" cy="-4" r="2.2" fill="#dceef2" opacity="0.8"/>
+            <circle cx="90" cy="-10" r="2" fill="#eaf6f8" opacity="0.85"/>
+          </g>
+        </g>
+
+        <!-- 姿态 D（用手机时）：坐着，脸被大手机轻轻遮住（身体完整、不穿模），带极轻的呼吸感 -->
+        <g class="pose pose-sitphone">
+          <g transform="translate(585 682)">
+            <!-- 整身极轻的呼吸（很慢、幅度很小） -->
+            <g>
+              <animateTransform attributeName="transform" type="translate"
+                values="0 0; 0 1.4; 0 0; 0 0.7; 0 0"
+                keyTimes="0; 0.2; 0.45; 0.72; 1" dur="13s" repeatCount="indefinite"/>
+              <ellipse cx="0" cy="34" rx="34" ry="9" fill="#5f7d52" opacity="0.16"/>
+              <path d="M-8 12 Q -26 24 -32 35" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M4 12 Q -14 28 -17 37" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M-16 -6 Q -18 8 0 11 Q 18 8 16 -6 Q 8 -9 0 -9 Q -8 -9 -16 -6 Z" fill="#d5e4ef"/>
+              <path d="M-13 -1 L 13 -1" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M-12 4 L 12 4" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+              <rect x="-11" y="-30" width="22" height="25" rx="9" fill="#f8f7f2"/>
+              <!-- 头：在手机后面，和身体自然连接；只露出头顶一点点头发 -->
+              <g transform="translate(0 -44)">
+                <circle cx="0" cy="0" r="16" fill="#f6d7ba"/>
+                <path d="M-17 -2 C -18 -18 -6 -24 0 -24 C 12 -24 18 -14 17 -2 C 12 -8 6 -10 0 -10 C -6 -10 -11 -8 -17 -2 Z" fill="#4e3a2c"/>
+                <path d="M-16 -2 Q -18 5 -13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+                <path d="M16 -2 Q 18 5 13 9" stroke="#4e3a2c" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+                <circle cx="-5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+                <circle cx="5.6" cy="-1" r="1.8" fill="#4e3a2c"/>
+                <path d="M-4 6 Q 0 9 4 6" stroke="#6b4f3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              </g>
+              <!-- 大手机：挡在脸前（遮住脸和一点上半身），偶尔轻微上下动一动 -->
+              <g>
+                <animateTransform attributeName="transform" type="translate"
+                  values="0 0; 0 4; 0 0; 0 2; 0 0"
+                  keyTimes="0; 0.24; 0.5; 0.76; 1" dur="16s" repeatCount="indefinite"/>
+                <rect x="-29" y="-54" width="58" height="80" rx="15" fill="#e6ebee"/>
+                <rect x="-24" y="-49" width="48" height="64" rx="7" fill="#a9c4d8" opacity="0.9"/>
+                <rect x="-9" y="-44" width="6" height="9" rx="2" fill="#e8f1f5" opacity="0.9"/>
+                <rect x="-16" y="-28" width="20" height="4" rx="2" fill="#eef4f6" opacity="0.85"/>
+                <rect x="-16" y="-20" width="26" height="4" rx="2" fill="#eef4f6" opacity="0.6"/>
+                <rect x="-16" y="-12" width="16" height="4" rx="2" fill="#eef4f6" opacity="0.5"/>
+                <circle cx="0" cy="6" r="4" fill="#f5e8c9"/>
+              </g>
+              <!-- 两只小手：扶在大手机下缘两侧（没有悬空手臂） -->
+              <circle cx="-27" cy="21" r="5" fill="#f2cfa9"/>
+              <circle cx="27" cy="21" r="5" fill="#f2cfa9"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 姿态 E（用手机时）：仰躺，双手把大手机举在脸上方（中间留空，不穿模） -->
+        <g class="pose pose-back">
+          <g transform="translate(585 706)">
+            <ellipse cx="0" cy="18" rx="44" ry="10" fill="#5f7d52" opacity="0.15"/>
+            <path d="M10 -10 Q 26 -8 34 -14" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M14 -8 Q 30 -2 38 -4" stroke="#f2cfa9" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M-8 -20 Q -8 -6 8 -4 Q 22 -8 20 -20 Z" fill="#d5e4ef"/>
+            <path d="M-2 -14 L 16 -14" stroke="#a9c8df" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="-18" y="-34" width="36" height="16" rx="8" fill="#f8f7f2"/>
+            <!-- 头 -->
+            <g transform="translate(0 -46)">
+              <circle cx="0" cy="8" r="14" fill="#f6d7ba"/>
+              <path d="M-15 4 C -16 -10 -7 -16 0 -16 C 9 -16 14 -7 14 4 C 9 0 4 -2 0 -2 C -5 -2 -10 0 -15 4 Z" fill="#4e3a2c"/>
+              <circle cx="-5" cy="10" r="1.6" fill="#4e3a2c"/>
+              <circle cx="5" cy="10" r="1.6" fill="#4e3a2c"/>
+              <path d="M-3 15 Q 0 17 3 15" stroke="#6b4f3a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </g>
+            <!-- 双手向上举着（先画手臂，手机再放在最上层） -->
+            <path d="M-12 -30 Q -22 -44 -28 -56" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <path d="M10 -30 Q 8 -46 4 -58" stroke="#f2cfa9" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+            <!-- 大手机：举在脸的正上方，与脸之间明显留空 -->
+            <g transform="translate(-14 -68)">
+              <rect x="-16" y="-13" width="60" height="26" rx="10" fill="#e6ebee"/>
+              <rect x="-12" y="-9" width="50" height="18" rx="5" fill="#a9c4d8" opacity="0.9"/>
+            </g>
+          </g>
+        </g>
+      </g>
+
+      <!-- 透明点击区（使用中可点她回来） -->
+      <circle id="girlHit" cx="585" cy="690" r="80" fill="transparent"/>
+      <!-- 女孩脑袋的隐形双击区（数据入口，会随当前姿态微调位置） -->
+      <circle id="girlHeadHit" cx="560" cy="636" r="22" fill="transparent"/>
+
+      <!-- ===== 9. 草地上的手机（入口） ===== -->
+      <g id="groundPhone" transform="translate(700 706)">
+        <ellipse cx="0" cy="30" rx="34" ry="8" fill="#5f7d52" opacity="0.15"/>
+        <g id="phoneSway">
+          <animateTransform attributeName="transform" type="rotate"
+            values="0 0 30; 3 0 30; -1.5 0 30; 0 0 30"
+            keyTimes="0; 0.35; 0.7; 1" dur="13s" repeatCount="indefinite"/>
+          <g transform="rotate(-16)">
+            <rect x="-19" y="-40" width="38" height="72" rx="10" fill="#e4e9ec"/>
+            <rect x="-15" y="-36" width="30" height="60" rx="5" fill="#b9cedd"/>
+            <circle cx="0" cy="-27" r="1.6" fill="#7d93a3"/>
+            <rect x="-9" y="-18" width="18" height="4" rx="2" fill="#eef4f6" opacity="0.9"/>
+            <rect x="-9" y="-10" width="18" height="4" rx="2" fill="#eef4f6" opacity="0.6"/>
+            <rect x="-9" y="-2" width="11" height="4" rx="2" fill="#eef4f6" opacity="0.5"/>
+            <circle cx="0" cy="12" r="5.5" fill="#dce8ed"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- 提示文字 -->
+      <g id="phoneHint" class="hint-layer">
+        <text text-anchor="middle" x="660" y="640" font-size="19" fill="#55524a" stroke="#ffffff" stroke-opacity="0.92" stroke-width="4.5" paint-order="stroke" style="font-weight:500;letter-spacing:0.5px">如果你现在想玩手机，点一下它吧</text>
+      </g>
+      <g id="usingHint" class="hint-layer">
+        <text text-anchor="middle" x="585" y="600" font-size="19" fill="#55524a" stroke="#ffffff" stroke-opacity="0.92" stroke-width="4.5" paint-order="stroke" style="font-weight:500;letter-spacing:0.5px">用完了？点一下手机，告诉我你回来了</text>
+      </g>
+
+      <!-- ===== 10. 极低频小动物（只安静地出现，不横穿、不吓人） ===== -->
+      <g id="animalLayer">
+        <!-- 海狸：平时藏在水下（画面外），偶尔在水面露个头看一看再潜回去 -->
+        <g id="animal-beaver" class="animal" transform="translate(-300 -300)">
+          <g>
+            <ellipse cx="0" cy="8" rx="16" ry="10" fill="#6f543d"/>
+            <circle cx="0" cy="-4" r="11" fill="#7d5f45"/>
+            <circle cx="-8" cy="-11" r="3" fill="#7d5f45"/>
+            <circle cx="8" cy="-11" r="3" fill="#7d5f45"/>
+            <circle cx="-8" cy="-11" r="1.2" fill="#4e3a2c"/>
+            <circle cx="8" cy="-11" r="1.2" fill="#4e3a2c"/>
+            <circle cx="-3.6" cy="-6" r="1.6" fill="#f4f1e4"/>
+            <circle cx="3.6" cy="-6" r="1.6" fill="#f4f1e4"/>
+            <circle cx="-3.6" cy="-6" r="0.8" fill="#2f2a24"/>
+            <circle cx="3.6" cy="-6" r="0.8" fill="#2f2a24"/>
+            <ellipse cx="0" cy="-2.5" rx="2.4" ry="1.4" fill="#2f2a24"/>
+            <ellipse cx="0" cy="10" rx="7" ry="4" fill="#5e4633"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- ===== 11. 前景：两侧小草与灌木（不遮挡小女孩） ===== -->
+      <g id="foreground">
+        <g stroke="#7f9d6b" stroke-width="3.4" fill="none" stroke-linecap="round">
+          <g transform="translate(40 716)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 9; 2 0 9; -1.6 0 9; 0 0 9" keyTimes="0; .3; .7; 1" dur="6.3s" begin="-1s" repeatCount="indefinite"/><path d="M0 8 Q -2 1 1 -12 M0 8 Q 3 2 8 -6 M0 8 Q -4 2 -6 -4"/></g></g>
+          <g transform="translate(1240 716)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 9; 1.8 0 9; -1.5 0 9; 0 0 9" keyTimes="0; .3; .7; 1" dur="6.8s" begin="-5s" repeatCount="indefinite"/><path d="M0 8 Q -2 1 1 -12 M0 8 Q 3 2 8 -6 M0 8 Q -4 2 -6 -4"/></g></g>
+          <g transform="translate(320 722)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 8; 1.6 0 8; -1.4 0 8; 0 0 8" keyTimes="0; .3; .7; 1" dur="7.2s" begin="-2s" repeatCount="indefinite"/><path d="M0 7 Q -1 1 1 -10 M0 7 Q 3 2 7 -4"/></g></g>
+          <g transform="translate(1080 718)"><g><animateTransform attributeName="transform" type="rotate" values="0 0 8; 1.6 0 8; -1.4 0 8; 0 0 8" keyTimes="0; .3; .7; 1" dur="7.5s" begin="-4s" repeatCount="indefinite"/><path d="M0 7 Q -1 1 1 -10 M0 7 Q 3 2 7 -4"/></g></g>
+        </g>
+        <ellipse cx="10" cy="720" rx="90" ry="46" fill="#6f8b63" opacity="0.85"/>
+        <ellipse cx="1270" cy="720" rx="90" ry="46" fill="#6f8b63" opacity="0.85"/>
+      </g>
+    </svg>
+
+    <!-- 夜晚暗色罩 / 清晨傍晚暖光 -->
+    <div class="night-veil" id="nightVeil"></div>
+    <div class="warm-glow" id="warmGlow"></div>
+  </div>
+
+  <!-- ============ 顶部标题（保留） ============ -->
+  <header class="brand">
+    <h1>Hold On</h1>
+    <p>等一等，再决定。</p>
+  </header>
+
+  <!-- ============ 对话层（移到中上，更透明柔和，圆角一致） ============ -->
+  <div class="dialog" id="dialog" aria-live="polite">
+    <div class="dialog-inner">
+      <div class="flower-avatar" id="flowerAvatar">
+        <svg viewBox="-12 -26 24 40" width="34" height="46">
+          <path d="M0 12 C -3 3 -2 -6 0 -14" stroke="#7d9a68" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+          <g transform="translate(0 -14)">
+            <ellipse cx="0" cy="-4.6" rx="2.6" ry="4.9" fill="#ffffff"/>
+            <ellipse cx="4.4" cy="-1.4" rx="2.6" ry="4.9" fill="#ffffff" transform="rotate(72)"/>
+            <ellipse cx="2.7" cy="3.8" rx="2.6" ry="4.9" fill="#ffffff" transform="rotate(144)"/>
+            <ellipse cx="-2.7" cy="3.8" rx="2.6" ry="4.9" fill="#ffffff" transform="rotate(216)"/>
+            <ellipse cx="-4.4" cy="-1.4" rx="2.6" ry="4.9" fill="#ffffff" transform="rotate(288)"/>
+            <circle r="2.7" fill="#e9cf8f"/>
+          </g>
+        </svg>
+      </div>
+      <div class="bubble">
+        <p class="bubble-text" id="bubbleText"></p>
+        <div class="options" id="options"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 数据管理（隐藏彩蛋入口：双击小女孩脑袋） ============ -->
+  <div class="data-panel" id="dataPanel" hidden>
+    <button class="dp-close" id="dpClose" aria-label="关闭">✕</button>
+    <div class="dp-title">我的记录</div>
+    <button class="dp-btn" id="exportBtn">导出我的记录</button>
+    <div class="dp-note" id="dpNote"></div>
+  </div>
+
+<script src="js/util.js"></script>
+<script src="js/time.js"></script>
+<script src="js/data.js"></script>
+<script src="js/story.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

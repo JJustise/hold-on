@@ -1,0 +1,382 @@
+/* ============================================================
+   Hold On · V0.1
+   柔和 / 平静 / 扁平 / 自然 / 温暖
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #5d5a4e;          /* 主文字：柔和深灰米色，不用纯黑 */
+  --ink-soft: #7d7969;     /* 次要文字 */
+  --paper: rgba(255, 252, 244, 0.72);   /* 对话框：更透明的米白 */
+  --paper-soft: rgba(255, 253, 248, 0.55);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+               "Noto Sans SC", -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: #cfe0cf;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- 世界场景 ---------- */
+.world {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #bcd6e2;
+}
+.world svg#scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 夜晚暗色罩（渐变出现，不用突然切换） */
+.night-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(22, 31, 55, 0.86) 0%,
+    rgba(24, 34, 58, 0.72) 55%,
+    rgba(26, 38, 62, 0.85) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s linear;
+}
+
+/* 傍晚/清晨的暖色氛围 */
+.warm-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(255, 166, 102, 0) 0%,
+    rgba(255, 172, 110, 0.55) 48%,
+    rgba(255, 150, 96, 0) 72%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s linear;
+}
+
+/* 小溪的流动 */
+.flowline {
+  stroke-dasharray: 14 26;
+  animation: flow 6s linear infinite;
+}
+@keyframes flow {
+  to { stroke-dashoffset: -120; }
+}
+
+/* 水面小亮点轻轻闪烁 */
+.sparkle {
+  animation: sparklePulse 3.6s ease-in-out infinite alternate;
+}
+.sparkle:nth-child(2n) { animation-duration: 4.6s; animation-delay: -2s; }
+@keyframes sparklePulse {
+  0%   { opacity: 0.35; }
+  100% { opacity: 1; }
+}
+
+/* 树影光斑缓慢呼吸 */
+#dapple ellipse {
+  animation: dappleBreath 14s ease-in-out infinite alternate;
+}
+#dapple ellipse:nth-child(2n) { animation-duration: 18s; animation-delay: -6s; }
+#dapple ellipse:nth-child(3n) { animation-duration: 11s; animation-delay: -3s; }
+@keyframes dappleBreath {
+  0%   { opacity: 0.05; }
+  100% { opacity: 0.22; }
+}
+
+/* 小女孩姿态切换：淡入淡出（位置变化用 SMIL 时不会用到 transform 覆盖） */
+.pose { opacity: 0; transition: opacity 1.6s ease; }
+.pose.active { opacity: 1; }
+
+/* 小女孩呼吸：非常轻微（只做上下移动，不做缩放，避免 SVG 变换原点问题） */
+#girl:not(.holding) { animation: gentleBreath 8s ease-in-out infinite alternate; }
+@keyframes gentleBreath {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(1.4px); }
+}
+
+/* 星星闪烁 */
+#starsG .tw { animation: twinkle 4.5s ease-in-out infinite alternate; }
+@keyframes twinkle {
+  0%   { opacity: 0.25; }
+  100% { opacity: 0.95; }
+}
+
+/* ---------- 场景内提示文字（淡入淡出） ---------- */
+.hint-layer {
+  opacity: 0;
+  transition: opacity 1.6s ease;
+  pointer-events: none;
+}
+.hint-layer.visible { opacity: 1; }
+#phoneHint.visible {
+  animation: hintBreath 5s ease-in-out infinite alternate;
+}
+@keyframes hintBreath {
+  0%   { opacity: 0.55; }
+  100% { opacity: 0.95; }
+}
+
+/* 草地上的手机：可点击；使用中的小女孩也可点击 */
+#groundPhone { cursor: pointer; }
+#girl { cursor: default; }
+#girl.holding { cursor: pointer; }
+
+/* 太阳 / 月亮 */
+#sunG, #moonG { transition: opacity 2s linear; }
+
+/* ---------- 顶部标题 ---------- */
+.brand {
+  position: fixed;
+  top: 26px;
+  left: 30px;
+  z-index: 30;
+  pointer-events: none;
+  user-select: none;
+}
+.brand h1 {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 14px rgba(96, 116, 108, 0.35);
+}
+.brand p {
+  margin-top: 6px;
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 1px 10px rgba(96, 116, 108, 0.3);
+}
+
+/* ---------- 对话框：一小团漂浮在森林里的空气 ---------- */
+.dialog {
+  position: fixed;
+  left: 50%;
+  top: auto;
+  bottom: 55%;
+  transform: translateX(-50%) translateY(14px);
+  width: min(470px, calc(100vw - 40px));
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.dialog.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.dialog-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.flower-avatar {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 6px rgba(90, 110, 90, 0.18));
+  transform-origin: 50% 100%;
+  animation: avatarBob 6s ease-in-out infinite alternate;
+}
+@keyframes avatarBob {
+  0%   { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+.bubble {
+  flex: 1 1 auto;
+  background: rgba(255, 252, 244, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 8px 13px 8px;
+  box-shadow: 0 4px 18px rgba(90, 100, 88, 0.1);
+  border: none;
+}
+.bubble-text {
+  font-size: 17px;
+  line-height: 1.32;
+  color: var(--ink);
+  min-height: 1.32em;
+  white-space: pre-line;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.opt {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  background: var(--paper-soft);
+  color: var(--ink);
+  font-size: 15px;
+  font-family: inherit;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(90, 100, 88, 0.08);
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  line-height: 1.25;
+}
+.opt:hover {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(90, 100, 88, 0.14);
+  transform: translateY(-1px);
+}
+.opt:focus-visible { outline: 2px solid rgba(125, 160, 130, 0.6); outline-offset: 2px; }
+
+/* 自定义输入 */
+.custom-row {
+  display: flex;
+  gap: 7px;
+  margin-top: 6px;
+  width: 100%;
+}
+.custom-row input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 11px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(120, 130, 110, 0.12);
+}
+.custom-row input:focus { outline: none; box-shadow: inset 0 0 0 2px rgba(125, 160, 130, 0.45); }
+
+/* ---------- 手机端基础适配（第一版先保证可用） ---------- */
+@media (max-width: 720px) {
+  .brand { top: 16px; left: 18px; }
+  .brand h1 { font-size: 22px; letter-spacing: 2px; }
+  .brand p { font-size: 12px; letter-spacing: 3px; }
+  .dialog { top: auto; bottom: 52%; width: calc(100vw - 20px); }
+  .bubble { padding: 7px 10px 6px; border-radius: 18px 18px 18px 6px; }
+  .bubble-text { font-size: 15px; }
+  .opt { font-size: 14px; padding: 4px 9px; }
+  .flower-avatar { width: 34px; height: 40px; }
+}
+
+/* 尊重“减少动态效果”的系统偏好 */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+  .pose { transition: opacity 0.3s ease; }
+}
+
+/* ---------- 极低频小动物：用“进入/离开场景”的方式出现，不使用淡入淡出 ---------- */
+.animal {
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* 透明点击圈 */
+#girlHit { cursor: default; }
+body.using #girlHit { cursor: pointer; }
+
+/* 第二条水流线（和第一条错开，显得更自然） */
+.flowline2 {
+  stroke-dasharray: 6 46;
+  animation: flow2 9s linear infinite;
+}
+@keyframes flow2 {
+  to { stroke-dashoffset: -160; }
+}
+
+/* 对话框：轻轻漂浮在空气里 */
+.dialog-inner {
+  animation: floatBob 7s ease-in-out infinite alternate;
+}
+@keyframes floatBob {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* 隐形点击圈：只在“使用手机中”才可点，平时不挡小白花/手机 */
+#girlHit { pointer-events: none; }
+body.using #girlHit { pointer-events: auto; }
+
+/* ---------- 数据导出（隐藏彩蛋入口用，不影响首页） ---------- */
+#girlHeadHit { pointer-events: auto; cursor: default; }
+body.using #girlHeadHit { pointer-events: none; }
+
+.data-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 55%;
+  transform: translateX(-50%) translateY(6px);
+  width: min(300px, calc(100vw - 40px));
+  z-index: 50;
+  background: rgba(255, 252, 244, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 6px 22px rgba(90, 100, 88, 0.14);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.data-panel.open {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.data-panel[hidden] { display: none; }
+.dp-title {
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.dp-btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(90, 100, 88, 0.1);
+}
+.dp-btn:hover { background: rgba(255, 255, 255, 0.92); }
+.dp-note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  min-height: 1em;
+}
+.dp-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+/* 小白花：触屏长按检测用（不影响画面/三击测试） */
+#flower { touch-action: manipulation; }
