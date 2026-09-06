@@ -607,7 +607,22 @@ window.HO = window.HO || {};
       exportedAt: new Date().toISOString(),
       records: records
     };
-    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: application/json });
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    var file = null;
+    try { file = new File([blob], filename, { type: 'application/json' }); } catch (e) { file = null; }
+
+    /* iPhone / iPad Safari：优先用系统分享菜单，可存到“文件”App / iCloud */
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: '我的 Hold On 记录' }).then(function () {
+        panelNote('已经帮你保存好了。');
+      }).catch(function (err) {
+        if (!err || err.name !== 'AbortError') fallbackDownload(blob, filename);
+      });
+      return;
+    }
+    fallbackDownload(blob, filename);
+  }
+  function fallbackDownload(blob, filename) {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -615,7 +630,7 @@ window.HO = window.HO || {};
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 3000);
     panelNote('已经帮你保存好了。');
   }
   function wireDataPanel() {
