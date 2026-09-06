@@ -597,7 +597,7 @@ window.HO = window.HO || {};
   }
   function exportRecords() {
     var records = HO.data.getRecords() || [];
-    if (!records.length) { panelNote('现在还没有可以导出的记录。'); return; }
+    if (!records.length) { panelNote('现在还没有可以导出的记录。'); toast('现在还没有可以导出的记录。'); return; }
     var p = beijingParts();
     var filename = 'hold-on-data-' + p.year + '-' + util.pad2(p.month) + '-' + util.pad2(p.day) + '.json';
     var payload = {
@@ -615,6 +615,7 @@ window.HO = window.HO || {};
     if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
       navigator.share({ files: [file], title: '我的 Hold On 记录' }).then(function () {
         panelNote('已经帮你保存好了。');
+        toast('已经帮你保存好了。');
       }).catch(function (err) {
         if (!err || err.name !== 'AbortError') fallbackDownload(blob, filename);
       });
@@ -632,6 +633,7 @@ window.HO = window.HO || {};
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 3000);
     panelNote('已经帮你保存好了。');
+    toast('已经帮你保存好了。');
   }
   function wireDataPanel() {
     var exportBtn = document.getElementById('exportBtn');
