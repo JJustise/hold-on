@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9f1df"/>
+      <stop offset="1" stop-color="#c2d9b0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <!-- 地面柔和阴影 -->
+  <ellipse cx="256" cy="404" rx="118" ry="24" fill="#90ad82" opacity="0.28"/>
+  <!-- 花茎 -->
+  <path d="M256 208 C 252 285 258 335 256 398" stroke="#7d9a68" stroke-width="17" fill="none" stroke-linecap="round"/>
+  <!-- 左右两片小叶子 -->
+  <path d="M256 302 C 214 292 188 302 172 326 C 204 336 238 328 256 314 Z" fill="#93b07e"/>
+  <path d="M256 338 C 298 328 324 338 340 362 C 308 372 274 364 256 350 Z" fill="#93b07e"/>
+  <!-- 花头：先画柔和投影，再画 5 片白花瓣和黄色花心 -->
+  <g transform="translate(256 196)">
+    <g transform="translate(0 10)" opacity="0.16">
+      <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#6f8c62" transform="rotate(0)"/>
+      <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#6f8c62" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#6f8c62" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#6f8c62" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#6f8c62" transform="rotate(288)"/>
+    </g>
+    <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#ffffff" transform="rotate(0)"/>
+    <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#ffffff" transform="rotate(72)"/>
+    <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#ffffff" transform="rotate(144)"/>
+    <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#ffffff" transform="rotate(216)"/>
+    <ellipse cx="0" cy="-52" rx="26" ry="52" fill="#ffffff" transform="rotate(288)"/>
+    <circle cx="0" cy="0" r="32" fill="#ecd397"/>
+    <circle cx="0" cy="0" r="32" fill="none" stroke="#dfbe7e" stroke-width="3"/>
+    <circle cx="0" cy="0" r="15" fill="#e3bc72" opacity="0.55"/>
+  </g>
+</svg>
